@@ -30,6 +30,7 @@ type HelloResponse struct {
 	Message string `json:"message,omitempty"`
 }
 
+// User 获取当前 Token 的用户详情
 func (s *userService) User(ctx context.Context, opts ...RequestOption) (*UserResponse, *Response, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, "user", nil, opts)
 	if err != nil {

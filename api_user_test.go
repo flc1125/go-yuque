@@ -17,7 +17,7 @@ func TestUserService_Hello(t *testing.T) {
 		_, _ = w.Write(loadData(t, "internal/testdata/api/user/hello.json"))
 	}))
 
-	resp, _, err := client.UserService.Hello(t.Context())
+	resp, _, err := client.UserService.Hello(ctx)
 	require.NoError(t, err)
 	assert.Equal(t, &HelloResponse{
 		Message: "Hello Yuque",
@@ -32,7 +32,7 @@ func TestUserService_User(t *testing.T) {
 		_, _ = w.Write(loadData(t, "internal/testdata/api/user/user.json"))
 	}))
 
-	resp, _, err := client.UserService.User(t.Context())
+	resp, _, err := client.UserService.User(ctx)
 	require.NoError(t, err)
 	assert.Equal(t, &UserResponse{
 		ID:               1781111,

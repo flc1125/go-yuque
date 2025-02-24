@@ -73,10 +73,11 @@ func TestClient_ErrorResponse(t *testing.T) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/error-response", r.URL.Path)
 
+		w.WriteHeader(http.StatusUnauthorized)
 		fmt.Fprint(w, `{
   "status": 0,
   "data": {},
-  "info": "error"
+  "message": "error"
 }`)
 	}))
 

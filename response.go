@@ -19,9 +19,9 @@ func newResponse(httpResp *http.Response) *Response {
 
 // RawBody represents a raw body.
 type RawBody struct {
-	Status int             `json:"status"`
-	Data   json.RawMessage `json:"data"`
-	Info   string          `json:"info"`
+	Status  int             `json:"status,omitempty"`
+	Data    json.RawMessage `json:"data,omitempty"`
+	Message string          `json:"info,omitempty"`
 }
 
 // ErrorResponse represents a yuque error response.
@@ -33,7 +33,7 @@ type ErrorResponse struct {
 
 func (e *ErrorResponse) Error() string {
 	if e.rawBody != nil {
-		return fmt.Sprintf("code: %d, info: %s", e.rawBody.Status, e.rawBody.Info)
+		return fmt.Sprintf("code: %d, info: %s", e.rawBody.Status, e.rawBody.Message)
 	}
 
 	if e.response != nil {
@@ -50,9 +50,4 @@ func (e *ErrorResponse) Unwrap() error {
 func IsErrorResponse(err error) bool {
 	var e *ErrorResponse
 	return errors.As(err, &e)
-}
-
-// CountResponse represents the response of count.
-type CountResponse struct {
-	Count int `json:"count"`
 }

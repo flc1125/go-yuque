@@ -171,17 +171,12 @@ func (c *Client) Do(req *http.Request, v any) (*Response, error) {
 		return nil, err
 	}
 
-	// debug mode
-	// body, _ := json.Marshal(rawBody)
-	// fmt.Println(string(body))
-	// spew.Dump(rawBody)
-
 	// check status
-	if rawBody.Status != 1 {
+	if resp.StatusCode != http.StatusOK {
 		return nil, &ErrorResponse{
 			response: resp,
 			rawBody:  &rawBody,
-			err:      errors.New(rawBody.Info),
+			err:      errors.New(rawBody.Message),
 		}
 	}
 

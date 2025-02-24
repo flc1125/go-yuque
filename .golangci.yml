@@ -1,0 +1,27 @@
+linters:
+  disable-all: true
+
+  enable:
+    - bodyclose
+    - dogsled
+    - durationcheck
+    - errcheck
+    - copyloopvar
+    - govet
+    - gosimple
+    - gofmt
+    - gofumpt
+    - goconst
+    - goimports
+    - mnd
+    - gocyclo
+    - ineffassign
+    - prealloc
+    - revive
+    - staticcheck
+    - typecheck
+    - unused
+    - whitespace
+    - wastedassign
+    - unconvert
+    - misspell

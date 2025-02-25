@@ -112,6 +112,8 @@ type GetDocsResponse struct {
 }
 
 // CreateDoc 创建文档
+//
+// 注意: 创建文档后不会自动添加到目录，需要调用"知识库目录更新接口"更新到目录中
 func (s *docService) CreateDoc(ctx context.Context, bookID any, request *CreateDocRequest, opts ...RequestOption) (*Doc, *Response, error) {
 	bid, err := parseID(bookID)
 	if err != nil {

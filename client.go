@@ -188,5 +188,5 @@ func (c *Client) Do(req *http.Request, v any) (*Response, error) {
 		}
 	}
 
-	return newResponse(resp), err
+	return &Response{Response: resp, rawBody: &rawBody}, nil
 }

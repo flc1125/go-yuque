@@ -37,6 +37,34 @@ type Doc struct {
 	Hits             int       `json:"hits,omitempty"`
 }
 
+func (s *docService) GetDocs(ctx context.Context, bookID any, request *GetDocsRequest, opts ...RequestOption) (*GetDocsResponse, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("repos/%s/docs", bid), request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var docs []*Doc
+	resp, err := s.client.Do(req, &docs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	var total int
+	if meta := resp.meta(); meta != nil {
+		total = meta.Total
+	}
+
+	return &GetDocsResponse{
+		Total: total,
+		Docs:  docs,
+	}, resp, nil
+}
+
 type GetDocsRequest struct {
 	// 偏移量 [分页参数]
 	Offset *int `url:"offset,omitempty"`
@@ -56,22 +84,7 @@ type GetDocsRequest struct {
 	OptionalProperties *string `url:"optional_properties,omitempty"`
 }
 
-func (s *docService) GetDocs(ctx context.Context, bookID any, request *GetDocsRequest, opts ...RequestOption) ([]*Doc, *Response, error) {
-	bid, err := parseID(bookID)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("repos/%s/docs", bid), request, opts)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var docs []*Doc
-	resp, err := s.client.Do(req, &docs)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return docs, resp, nil
+type GetDocsResponse struct {
+	Total int    `json:"total,omitempty"`
+	Docs  []*Doc `json:"docs,omitempty"`
 }

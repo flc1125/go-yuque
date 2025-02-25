@@ -10,16 +10,24 @@ import (
 // Response represents an API response.
 type Response struct {
 	*http.Response
+	rawBody *RawBody
 }
 
-// newResponse creates a new Response.
-func newResponse(httpResp *http.Response) *Response {
-	return &Response{Response: httpResp}
+func (r *Response) meta() *Meta {
+	if r.rawBody == nil {
+		return nil
+	}
+	return r.rawBody.Meta
+}
+
+type Meta struct {
+	Total int `json:"total,omitempty"`
 }
 
 // RawBody represents a raw body.
 type RawBody struct {
 	Status  int             `json:"status,omitempty"`
+	Meta    *Meta           `json:"meta,omitempty"`
 	Data    json.RawMessage `json:"data,omitempty"`
 	Message string          `json:"info,omitempty"`
 }

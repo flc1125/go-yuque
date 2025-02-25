@@ -14,6 +14,9 @@ type Response struct {
 }
 
 func (r *Response) meta() *Meta {
+	if r.rawBody == nil {
+		return nil
+	}
 	return r.rawBody.Meta
 }
 

@@ -32,4 +32,5 @@ func TestDocService_GetDocs(t *testing.T) {
 	doc := resp.Docs[0]
 	assert.Equal(t, 200952222, doc.ID)
 	assert.Equal(t, "会议室演示", doc.Title)
+	assert.Equal(t, DocTypeDoc, doc.Type)
 }

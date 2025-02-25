@@ -13,7 +13,7 @@ type docService struct {
 
 type Doc struct {
 	ID               int       `json:"id,omitempty"`
-	Type             string    `json:"type,omitempty"`
+	Type             DocType   `json:"type,omitempty"`
 	Slug             string    `json:"slug,omitempty"`
 	Title            string    `json:"title,omitempty"`
 	Description      string    `json:"description,omitempty"`

@@ -8,8 +8,10 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 const (
@@ -148,4 +150,10 @@ func TestClient_WithRequestOption(t *testing.T) {
 	resp, err := client.Do(req, nil)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
+}
+
+func mustParseTime(t *testing.T, s string) time.Time {
+	ts, err := time.Parse(time.RFC3339, s)
+	require.NoError(t, err)
+	return ts
 }

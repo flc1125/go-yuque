@@ -73,7 +73,7 @@ func TestDocService_CreateDocs(t *testing.T) {
 		Format:           Ptr(DocFormatMarkdown),
 		BodyDraft:        Ptr(""),
 		Body:             Ptr("string"),
-		BodyHtml:         Ptr("<p>string</p>\n"),
+		BodyHTML:         Ptr("<p>string</p>\n"),
 		Public:           AccessTypePrivate,
 		Status:           1,
 		LikesCount:       nil,

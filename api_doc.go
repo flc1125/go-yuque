@@ -42,7 +42,7 @@ type Doc struct {
 	Body      *string    `json:"body,omitempty"`
 	BodySheet *string    `json:"body_sheet,omitempty"`
 	BodyTable *string    `json:"body_table,omitempty"`
-	BodyHtml  *string    `json:"body_html,omitempty"`
+	BodyHTML  *string    `json:"body_html,omitempty"`
 	BodyLake  *string    `json:"body_lake,omitempty"`
 	Book      *Book      `json:"book,omitempty"`
 	Creator   *User      `json:"creator,omitempty"`

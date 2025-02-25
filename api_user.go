@@ -30,14 +30,14 @@ type HelloResponse struct {
 	Message string `json:"message,omitempty"`
 }
 
-// User 获取当前 Token 的用户详情
-func (s *userService) User(ctx context.Context, opts ...RequestOption) (*UserResponse, *Response, error) {
+// GetUser 获取当前 Token 的用户详情
+func (s *userService) GetUser(ctx context.Context, opts ...RequestOption) (*User, *Response, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, "user", nil, opts)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	response := new(UserResponse)
+	response := new(User)
 	resp, err := s.client.Do(req, response)
 	if err != nil {
 		return nil, resp, err
@@ -46,7 +46,7 @@ func (s *userService) User(ctx context.Context, opts ...RequestOption) (*UserRes
 	return response, resp, nil
 }
 
-type UserResponse struct {
+type User struct {
 	ID               int       `json:"id,omitempty"`
 	Type             string    `json:"type,omitempty"`
 	Login            string    `json:"login,omitempty"`

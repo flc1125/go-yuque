@@ -35,6 +35,7 @@ type Client struct {
 
 	// services used for talking to different parts of the Tapd API.
 	UserService *userService
+	DocService  *docService
 }
 
 // NewClient returns a new Tapd API client.
@@ -62,6 +63,7 @@ func newClient(opts ...ClientOption) (*Client, error) {
 
 	// services
 	c.UserService = &userService{c}
+	c.DocService = &docService{c}
 
 	return c, nil
 }

@@ -24,7 +24,7 @@ func TestUserService_Hello(t *testing.T) {
 	}, resp)
 }
 
-func TestUserService_User(t *testing.T) {
+func TestUserService_GetUser(t *testing.T) {
 	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/user", r.URL.Path)
@@ -32,9 +32,9 @@ func TestUserService_User(t *testing.T) {
 		_, _ = w.Write(loadData(t, "internal/testdata/api/user/user.json"))
 	}))
 
-	resp, _, err := client.UserService.User(ctx)
+	resp, _, err := client.UserService.GetUser(ctx)
 	require.NoError(t, err)
-	assert.Equal(t, &UserResponse{
+	assert.Equal(t, &User{
 		ID:               1781111,
 		Type:             "Group",
 		Login:            "yuque",

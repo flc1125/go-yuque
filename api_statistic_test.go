@@ -64,5 +64,4 @@ func TestStatisticService_GetGroupStatistics(t *testing.T) {
 		Baike:                  1.7,
 		TableCount:             3,
 	}, resp)
-
 }

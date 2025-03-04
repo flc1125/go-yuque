@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "uuid": "5wNEEZX3KK_hwec1",
+      "type": "DOC",
+      "title": "团队建设",
+      "url": "akc74cm47w1kpi9g",
+      "slug": "akc74cm47w1kpi9g",
+      "id": 163724494,
+      "doc_id": 163724494,
+      "level": 0,
+      "depth": 1,
+      "open_window": 1,
+      "visible": 0,
+      "prev_uuid": "",
+      "sibling_uuid": "XmljcRk3475oflnH",
+      "child_uuid": "ZNUPE7oxf-FP_WbQ",
+      "parent_uuid": "",
+      "_serializer": "v2.toc_item"
+    },
+    {
+      "uuid": "XmljcRk3475oflnH",
+      "type": "DOC",
+      "title": "团队文化",
+      "url": "tti0lofsdvypikku",
+      "slug": "tti0lofsdvypikku",
+      "id": "",
+      "doc_id": "",
+      "level": 0,
+      "depth": 1,
+      "open_window": 1,
+      "visible": 1,
+      "prev_uuid": "5wNEEZX3KK_hwec1",
+      "sibling_uuid": "Rj13VAHZwhw00nCn",
+      "child_uuid": "",
+      "parent_uuid": "",
+      "_serializer": "v2.toc_item"
+    }
+  ]
+}

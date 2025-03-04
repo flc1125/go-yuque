@@ -141,3 +141,88 @@ type CreateDocRequest struct {
 	Format *DocFormat  `json:"format,omitempty"` // 内容格式 (markdown:Markdown 格式, html:HTML 标准格式, lake:语雀 Lake 格式) 不填则默认为 markdown
 	Body   *string     `json:"body,omitempty"`   // 正文内容
 }
+
+// 获取文档详情
+// 更新文档
+// 删除文档
+// 获取文档历史版本列表
+// 获取文档历史版本详情
+
+// GetTOCs 获取目录
+func (s *docService) GetTOCs(ctx context.Context, bookID any, opts ...RequestOption) ([]*TOC, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("repos/%s/toc", bid), nil, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var rawTocs []*rawTOC
+	resp, err := s.client.Do(req, &rawTocs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	tocs := make([]*TOC, len(rawTocs))
+	for i, rawTOC := range rawTocs {
+		toc := rawTOC.TOC
+
+		// 兼容 id/doc_id 为 string 的情况，其实都是空值
+		toc.ID = rawTocParseID(rawTOC.ID)
+		toc.DocID = rawTocParseID(rawTOC.DocID)
+
+		tocs[i] = &toc
+	}
+
+	return tocs, resp, nil
+}
+
+type rawTOC struct {
+	TOC
+	ID    any `json:"id,omitempty"`     // Deprecated 文档 ID
+	DocID any `json:"doc_id,omitempty"` // 文档 ID
+}
+
+func rawTocParseID(id any) int {
+	switch v := id.(type) {
+	case int, int8, int16, int32, int64:
+		return int(v.(int64))
+	case float64, float32:
+		return int(v.(float64))
+	case string:
+		return 0
+	default:
+		return 0
+	}
+}
+
+type TOCType string
+
+const (
+	TOCTypeDoc   TOCType = "DOC"
+	TOCTypeLink  TOCType = "LINK"
+	TOCTypeTitle TOCType = "TITLE"
+)
+
+type TOC struct {
+	UUID        string  `json:"uuid,omitempty"`         // 节点唯一 ID
+	Type        TOCType `json:"type,omitempty"`         // Enum: "DOC" "LINK" "TITLE" 节点类型 (DOC:文档, LINK:外链, TITLE:分组)
+	Title       string  `json:"title,omitempty"`        // 节点名称
+	URL         string  `json:"url,omitempty"`          // 节点 URL
+	Slug        string  `json:"slug,omitempty"`         // Deprecated 节点 URL
+	ID          int     `json:"id,omitempty"`           // Deprecated 文档 ID
+	DocID       int     `json:"doc_id,omitempty"`       // 文档 ID
+	Level       int     `json:"level,omitempty"`        // 节点层级
+	Depth       int     `json:"depth,omitempty"`        // Deprecated 节点层级
+	OpenWindow  int     `json:"open_window,omitempty"`  // 是否在新窗口打开 (0:当前页打开, 1:新窗口打开)
+	Visible     int     `json:"visible,omitempty"`      // 是否可见 (0:不可见, 1:可见)
+	PrevUUID    string  `json:"prev_uuid,omitempty"`    // 同级前一个节点 uuid
+	SiblingUUID string  `json:"sibling_uuid,omitempty"` // 同级后一个节点 uuid
+	ChildUUID   string  `json:"child_uuid,omitempty"`   // 子级第一个节点 uuid
+	ParentUUID  string  `json:"parent_uuid,omitempty"`  // 父级节点 uuid
+}
+
+// 更新目录

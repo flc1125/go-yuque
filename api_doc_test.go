@@ -88,3 +88,52 @@ func TestDocService_CreateDocs(t *testing.T) {
 		Hits:             0,
 	}, doc)
 }
+
+func TestDocService_CreateTOCs(t *testing.T) {
+	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/repos/org/book/toc", r.URL.Path)
+
+		_, _ = w.Write(loadData(t, "internal/testdata/api/doc/get_tocs.json"))
+	}))
+
+	tocs, _, err := client.DocService.GetTOCs(ctx, "org/book")
+	require.NoError(t, err)
+	require.Len(t, tocs, 2)
+
+	assert.Contains(t, tocs, &TOC{
+		UUID:        "5wNEEZX3KK_hwec1",
+		Type:        TOCTypeDoc,
+		Title:       "团队建设",
+		URL:         "akc74cm47w1kpi9g",
+		Slug:        "akc74cm47w1kpi9g",
+		ID:          163724494,
+		DocID:       163724494,
+		Level:       0,
+		Depth:       1,
+		OpenWindow:  1,
+		Visible:     0,
+		PrevUUID:    "",
+		SiblingUUID: "XmljcRk3475oflnH",
+		ChildUUID:   "ZNUPE7oxf-FP_WbQ",
+		ParentUUID:  "",
+	}, tocs)
+
+	assert.Contains(t, tocs, &TOC{
+		UUID:        "XmljcRk3475oflnH",
+		Type:        TOCTypeDoc,
+		Title:       "团队文化",
+		URL:         "tti0lofsdvypikku",
+		Slug:        "tti0lofsdvypikku",
+		ID:          0,
+		DocID:       0,
+		Level:       0,
+		Depth:       1,
+		OpenWindow:  1,
+		Visible:     1,
+		PrevUUID:    "5wNEEZX3KK_hwec1",
+		SiblingUUID: "Rj13VAHZwhw00nCn",
+		ChildUUID:   "",
+		ParentUUID:  "",
+	}, tocs)
+}

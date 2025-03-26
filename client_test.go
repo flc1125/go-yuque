@@ -55,6 +55,7 @@ func TestClient_CheckToken(t *testing.T) {
 		// check token
 		assert.Equal(t, apiToken, r.Header.Get("X-Auth-Token"))
 
+		// nolint: errcheck
 		fmt.Fprint(w, `{
   "status": 1,
   "data": {},
@@ -76,6 +77,8 @@ func TestClient_ErrorResponse(t *testing.T) {
 		assert.Equal(t, "/__/error-response", r.URL.Path)
 
 		w.WriteHeader(http.StatusUnauthorized)
+
+		// nolint: errcheck
 		fmt.Fprint(w, `{
   "status": 0,
   "data": {},
@@ -102,7 +105,7 @@ func TestClient_NormalRequest(t *testing.T) {
 		// check token
 		assert.Equal(t, apiToken, r.Header.Get("X-Auth-Token"))
 
-		fmt.Fprint(w, successResponse)
+		fmt.Fprint(w, successResponse) // nolint: errcheck
 	}))
 
 	req, err := client.NewRequest(ctx, http.MethodGet, "__/normal-request", nil, nil)
@@ -129,7 +132,7 @@ func TestClient_WithRequestOption(t *testing.T) {
 		// check token
 		assert.Equal(t, apiToken, r.Header.Get("X-Auth-Token"))
 
-		fmt.Fprint(w, successResponse)
+		fmt.Fprint(w, successResponse) // nolint: errcheck
 	}))
 
 	req, err := client.NewRequest(ctx, http.MethodGet, "__/request-option", nil, []RequestOption{

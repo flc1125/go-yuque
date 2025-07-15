@@ -57,10 +57,10 @@ func (s *repoService) GetRepos(ctx context.Context, ownerLogin string, request *
 
 // GetReposRequest 获取知识库列表请求
 type GetReposRequest struct {
-	Offset  *int      `url:"offset,omitempty"`  // 偏移量 [分页参数]
-	Limit   *int      `url:"limit,omitempty"`   // 每页数量 [分页参数]
-	Type    *BookType `url:"type,omitempty"`    // 类型 [筛选条件]
-	IsGroup bool      `url:"-"`                 // 是否为团队 (内部使用)
+	Offset  *int      `url:"offset,omitempty"` // 偏移量 [分页参数]
+	Limit   *int      `url:"limit,omitempty"`  // 每页数量 [分页参数]
+	Type    *BookType `url:"type,omitempty"`   // 类型 [筛选条件]
+	IsGroup bool      `url:"-"`                // 是否为团队 (内部使用)
 }
 
 // CreateRepo 创建知识库
@@ -88,12 +88,12 @@ func (s *repoService) CreateRepo(ctx context.Context, ownerLogin string, request
 
 // CreateRepoRequest 创建知识库请求
 type CreateRepoRequest struct {
-	Name             string     `json:"name"`                        // 名称 (必填)
-	Slug             string     `json:"slug"`                        // 路径 (必填)
-	Description      *string    `json:"description,omitempty"`       // 简介
-	Public           AccessType `json:"public"`                      // 公开性
-	EnhancedPrivacy  *bool      `json:"enhancedPrivacy,omitempty"`   // 增强私密性
-	IsGroup          bool       `json:"-"`                           // 是否为团队 (内部使用)
+	Name            string     `json:"name"`                      // 名称 (必填)
+	Slug            string     `json:"slug"`                      // 路径 (必填)
+	Description     *string    `json:"description,omitempty"`     // 简介
+	Public          AccessType `json:"public"`                    // 公开性
+	EnhancedPrivacy *bool      `json:"enhancedPrivacy,omitempty"` // 增强私密性
+	IsGroup         bool       `json:"-"`                         // 是否为团队 (内部使用)
 }
 
 // GetRepo 获取知识库详情

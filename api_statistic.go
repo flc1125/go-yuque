@@ -111,23 +111,23 @@ type GetGroupMemberStatisticsResponse struct {
 
 // MemberStatistics 成员统计数据
 type MemberStatistics struct {
-	BizDate          string `json:"bizdate,omitempty"`           // 统计日期 (YYYYMMDD)
-	UserID           string `json:"user_id,omitempty"`           // 成员 ID
-	GroupID          string `json:"group_id,omitempty"`          // 团队 ID
-	OrganizationID   string `json:"organization_id,omitempty"`   // 空间 ID
-	WriteCount       string `json:"write_count,omitempty"`       // 编辑次数
-	WriteCount30     string `json:"write_count_30,omitempty"`    // 编辑次数 (30天)
-	WriteCount365    string `json:"write_count_365,omitempty"`   // 编辑次数 (一年)
-	WriteDocCount    string `json:"write_doc_count,omitempty"`   // 编辑文档数
-	WriteDocCount30  string `json:"write_doc_count_30,omitempty"` // 编辑文档数 (30天)
+	BizDate          string `json:"bizdate,omitempty"`             // 统计日期 (YYYYMMDD)
+	UserID           string `json:"user_id,omitempty"`             // 成员 ID
+	GroupID          string `json:"group_id,omitempty"`            // 团队 ID
+	OrganizationID   string `json:"organization_id,omitempty"`     // 空间 ID
+	WriteCount       string `json:"write_count,omitempty"`         // 编辑次数
+	WriteCount30     string `json:"write_count_30,omitempty"`      // 编辑次数 (30天)
+	WriteCount365    string `json:"write_count_365,omitempty"`     // 编辑次数 (一年)
+	WriteDocCount    string `json:"write_doc_count,omitempty"`     // 编辑文档数
+	WriteDocCount30  string `json:"write_doc_count_30,omitempty"`  // 编辑文档数 (30天)
 	WriteDocCount365 string `json:"write_doc_count_365,omitempty"` // 编辑文档数 (一年)
-	ReadCount        string `json:"read_count,omitempty"`        // 阅读量
-	ReadCount30      string `json:"read_count_30,omitempty"`     // 阅读量 (30天)
-	ReadCount365     string `json:"read_count_365,omitempty"`    // 阅读量 (一年)
-	LikeCount        string `json:"like_count,omitempty"`        // 点赞量
-	LikeCount30      string `json:"like_count_30,omitempty"`     // 点赞量 (30天)
-	LikeCount365     string `json:"like_count_365,omitempty"`    // 点赞量 (一年)
-	User             string `json:"user,omitempty"`              // 用户信息
+	ReadCount        string `json:"read_count,omitempty"`          // 阅读量
+	ReadCount30      string `json:"read_count_30,omitempty"`       // 阅读量 (30天)
+	ReadCount365     string `json:"read_count_365,omitempty"`      // 阅读量 (一年)
+	LikeCount        string `json:"like_count,omitempty"`          // 点赞量
+	LikeCount30      string `json:"like_count_30,omitempty"`       // 点赞量 (30天)
+	LikeCount365     string `json:"like_count_365,omitempty"`      // 点赞量 (一年)
+	User             string `json:"user,omitempty"`                // 用户信息
 }
 
 // GetGroupBookStatistics 团队.知识库统计数据
@@ -164,51 +164,51 @@ type GetGroupBookStatisticsResponse struct {
 
 // BookStatistics 知识库统计数据
 type BookStatistics struct {
-	BizDate              string `json:"bizdate,omitempty"`               // 统计日期 (YYYYMMDD)
-	BookID               string `json:"book_id,omitempty"`               // 知识库 ID
-	Slug                 string `json:"slug,omitempty"`                  // 知识库 slug
-	Name                 string `json:"name,omitempty"`                  // 知识库名称
-	Type                 string `json:"type,omitempty"`                  // 知识库类型
-	IsPublic             string `json:"is_public,omitempty"`             // 是否公开
-	ContentUpdatedAtMs   string `json:"content_updated_at_ms,omitempty"` // 最近更新时间
-	UserID               string `json:"user_id,omitempty"`               // 知识库归属 ID
-	OrganizationID       string `json:"organization_id,omitempty"`       // 知识库归属空间 ID
-	DayReadCount         string `json:"day_read_count,omitempty"`        // 当日阅读量
-	DayWriteCount        string `json:"day_write_count,omitempty"`       // 当日编辑次数
-	DayLikeCount         string `json:"day_like_count,omitempty"`        // 当日点赞量
-	PostCount            string `json:"post_count,omitempty"`            // 文档数
-	WordCount            string `json:"word_count,omitempty"`            // 字数
-	WriteCount           string `json:"write_count,omitempty"`           // 编辑次数
-	WriteCount30         string `json:"write_count_30,omitempty"`        // 编辑次数 (30天)
-	ReadCount            string `json:"read_count,omitempty"`            // 阅读量
-	ReadCount30          string `json:"read_count_30,omitempty"`         // 阅读量 (30天)
-	ReadCount365         string `json:"read_count_365,omitempty"`        // 阅读量 (一年)
-	LikeCount            string `json:"like_count,omitempty"`            // 点赞量
-	LikeCount7           string `json:"like_count_7,omitempty"`          // 点赞量 (7天)
-	LikeCount30          string `json:"like_count_30,omitempty"`         // 点赞量 (30天)
-	LikeCount365         string `json:"like_count_365,omitempty"`        // 点赞量 (一年)
-	WatchCount           string `json:"watch_count,omitempty"`           // 关注量
-	WatchCount7          string `json:"watch_count_7,omitempty"`         // 关注量 (7天)
-	WatchCount30         string `json:"watch_count_30,omitempty"`        // 关注量 (30天)
-	WatchCount365        string `json:"watch_count_365,omitempty"`       // 关注量 (一年)
-	CommentCount         string `json:"comment_count,omitempty"`         // 评论量
-	CommentCount30       string `json:"comment_count_30,omitempty"`      // 评论量 (30天)
-	CommentCount365      string `json:"comment_count_365,omitempty"`     // 评论量 (一年)
-	LikeRankRate         string `json:"like_rank_rate,omitempty"`        // 知识库点赞数排名
-	Popularity30         string `json:"popularity_30,omitempty"`         // 30 天热度
-	DocCount             string `json:"doc_count,omitempty"`             // 文档数量
-	SheetCount           string `json:"sheet_count,omitempty"`           // 表格数量
-	BoardCount           string `json:"board_count,omitempty"`           // 画板数量
-	ShowCount            string `json:"show_count,omitempty"`            // 演示文稿数量
-	ResourceCount        string `json:"resource_count,omitempty"`        // 资源数量
-	ArtBoardCount        string `json:"artboard_count,omitempty"`        // 图集数量
-	AttachmentCount      string `json:"attachment_count,omitempty"`      // 附件数量
+	BizDate                string `json:"bizdate,omitempty"`                  // 统计日期 (YYYYMMDD)
+	BookID                 string `json:"book_id,omitempty"`                  // 知识库 ID
+	Slug                   string `json:"slug,omitempty"`                     // 知识库 slug
+	Name                   string `json:"name,omitempty"`                     // 知识库名称
+	Type                   string `json:"type,omitempty"`                     // 知识库类型
+	IsPublic               string `json:"is_public,omitempty"`                // 是否公开
+	ContentUpdatedAtMs     string `json:"content_updated_at_ms,omitempty"`    // 最近更新时间
+	UserID                 string `json:"user_id,omitempty"`                  // 知识库归属 ID
+	OrganizationID         string `json:"organization_id,omitempty"`          // 知识库归属空间 ID
+	DayReadCount           string `json:"day_read_count,omitempty"`           // 当日阅读量
+	DayWriteCount          string `json:"day_write_count,omitempty"`          // 当日编辑次数
+	DayLikeCount           string `json:"day_like_count,omitempty"`           // 当日点赞量
+	PostCount              string `json:"post_count,omitempty"`               // 文档数
+	WordCount              string `json:"word_count,omitempty"`               // 字数
+	WriteCount             string `json:"write_count,omitempty"`              // 编辑次数
+	WriteCount30           string `json:"write_count_30,omitempty"`           // 编辑次数 (30天)
+	ReadCount              string `json:"read_count,omitempty"`               // 阅读量
+	ReadCount30            string `json:"read_count_30,omitempty"`            // 阅读量 (30天)
+	ReadCount365           string `json:"read_count_365,omitempty"`           // 阅读量 (一年)
+	LikeCount              string `json:"like_count,omitempty"`               // 点赞量
+	LikeCount7             string `json:"like_count_7,omitempty"`             // 点赞量 (7天)
+	LikeCount30            string `json:"like_count_30,omitempty"`            // 点赞量 (30天)
+	LikeCount365           string `json:"like_count_365,omitempty"`           // 点赞量 (一年)
+	WatchCount             string `json:"watch_count,omitempty"`              // 关注量
+	WatchCount7            string `json:"watch_count_7,omitempty"`            // 关注量 (7天)
+	WatchCount30           string `json:"watch_count_30,omitempty"`           // 关注量 (30天)
+	WatchCount365          string `json:"watch_count_365,omitempty"`          // 关注量 (一年)
+	CommentCount           string `json:"comment_count,omitempty"`            // 评论量
+	CommentCount30         string `json:"comment_count_30,omitempty"`         // 评论量 (30天)
+	CommentCount365        string `json:"comment_count_365,omitempty"`        // 评论量 (一年)
+	LikeRankRate           string `json:"like_rank_rate,omitempty"`           // 知识库点赞数排名
+	Popularity30           string `json:"popularity_30,omitempty"`            // 30 天热度
+	DocCount               string `json:"doc_count,omitempty"`                // 文档数量
+	SheetCount             string `json:"sheet_count,omitempty"`              // 表格数量
+	BoardCount             string `json:"board_count,omitempty"`              // 画板数量
+	ShowCount              string `json:"show_count,omitempty"`               // 演示文稿数量
+	ResourceCount          string `json:"resource_count,omitempty"`           // 资源数量
+	ArtBoardCount          string `json:"artboard_count,omitempty"`           // 图集数量
+	AttachmentCount        string `json:"attachment_count,omitempty"`         // 附件数量
 	InteractionPeopleCount string `json:"interaction_people_count,omitempty"` // 知识交流人数
-	ContentCount         string `json:"content_count,omitempty"`         // 知识财富数
-	CollaborationCount   string `json:"collaboration_count,omitempty"`   // 知识协同次数
-	WorkingHours         string `json:"working_hours,omitempty"`         // 协同提效时长 (小时)
-	Baike                string `json:"baike,omitempty"`                 // 百科全书卷数
-	TableCount           string `json:"table_count,omitempty"`           // 表格数量
+	ContentCount           string `json:"content_count,omitempty"`            // 知识财富数
+	CollaborationCount     string `json:"collaboration_count,omitempty"`      // 知识协同次数
+	WorkingHours           string `json:"working_hours,omitempty"`            // 协同提效时长 (小时)
+	Baike                  string `json:"baike,omitempty"`                    // 百科全书卷数
+	TableCount             string `json:"table_count,omitempty"`              // 表格数量
 }
 
 // GetGroupDocStatistics 团队.文档统计数据
@@ -246,34 +246,34 @@ type GetGroupDocStatisticsResponse struct {
 
 // DocStatistics 文档统计数据
 type DocStatistics struct {
-	BizDate           string `json:"bizdate,omitempty"`            // 统计日期 (YYYYMMDD)
-	BookID            string `json:"book_id,omitempty"`            // 知识库 ID
-	DocID             string `json:"doc_id,omitempty"`             // 文档 ID
-	Slug              string `json:"slug,omitempty"`               // 文档 slug
-	Title             string `json:"title,omitempty"`              // 文档标题
-	Type              string `json:"type,omitempty"`               // 知识库类型
-	IsPublic          string `json:"is_public,omitempty"`          // 是否公开
-	CreatedAt         string `json:"created_at,omitempty"`         // 创建时间
-	ContentUpdatedAt  string `json:"content_updated_at,omitempty"` // 最近更新时间
-	UserID            string `json:"user_id,omitempty"`            // 文档归属 ID
-	OrganizationID    string `json:"organization_id,omitempty"`    // 文档归属空间 ID
-	DayReadCount      string `json:"day_read_count,omitempty"`     // 当日阅读量
-	DayWriteCount     string `json:"day_write_count,omitempty"`    // 当日编辑次数
-	DayLikeCount      string `json:"day_like_count,omitempty"`     // 当日点赞量
-	WordCount         string `json:"word_count,omitempty"`         // 字数
-	WriteCount        string `json:"write_count,omitempty"`        // 编辑次数
-	ReadCount         string `json:"read_count,omitempty"`         // 阅读量
-	ReadCount7        string `json:"read_count_7,omitempty"`       // 阅读量 (7天)
-	ReadCount30       string `json:"read_count_30,omitempty"`      // 阅读量 (30天)
-	ReadCount365      string `json:"read_count_365,omitempty"`     // 阅读量 (一年)
-	LikeCount         string `json:"like_count,omitempty"`         // 点赞量
-	LikeCount7        string `json:"like_count_7,omitempty"`       // 点赞量 (7天)
-	LikeCount30       string `json:"like_count_30,omitempty"`      // 点赞量 (30天)
-	LikeCount365      string `json:"like_count_365,omitempty"`     // 点赞量 (一年)
-	CommentCount      string `json:"comment_count,omitempty"`      // 评论量
-	CommentCount30    string `json:"comment_count_30,omitempty"`   // 评论量 (30天)
-	CommentCount365   string `json:"comment_count_365,omitempty"`  // 评论量 (一年)
-	Popularity30      string `json:"popularity_30,omitempty"`      // 30 天热度
-	AttachmentCount   string `json:"attachment_count,omitempty"`   // 附件数量
-	User              string `json:"user,omitempty"`               // 用户信息
+	BizDate          string `json:"bizdate,omitempty"`            // 统计日期 (YYYYMMDD)
+	BookID           string `json:"book_id,omitempty"`            // 知识库 ID
+	DocID            string `json:"doc_id,omitempty"`             // 文档 ID
+	Slug             string `json:"slug,omitempty"`               // 文档 slug
+	Title            string `json:"title,omitempty"`              // 文档标题
+	Type             string `json:"type,omitempty"`               // 知识库类型
+	IsPublic         string `json:"is_public,omitempty"`          // 是否公开
+	CreatedAt        string `json:"created_at,omitempty"`         // 创建时间
+	ContentUpdatedAt string `json:"content_updated_at,omitempty"` // 最近更新时间
+	UserID           string `json:"user_id,omitempty"`            // 文档归属 ID
+	OrganizationID   string `json:"organization_id,omitempty"`    // 文档归属空间 ID
+	DayReadCount     string `json:"day_read_count,omitempty"`     // 当日阅读量
+	DayWriteCount    string `json:"day_write_count,omitempty"`    // 当日编辑次数
+	DayLikeCount     string `json:"day_like_count,omitempty"`     // 当日点赞量
+	WordCount        string `json:"word_count,omitempty"`         // 字数
+	WriteCount       string `json:"write_count,omitempty"`        // 编辑次数
+	ReadCount        string `json:"read_count,omitempty"`         // 阅读量
+	ReadCount7       string `json:"read_count_7,omitempty"`       // 阅读量 (7天)
+	ReadCount30      string `json:"read_count_30,omitempty"`      // 阅读量 (30天)
+	ReadCount365     string `json:"read_count_365,omitempty"`     // 阅读量 (一年)
+	LikeCount        string `json:"like_count,omitempty"`         // 点赞量
+	LikeCount7       string `json:"like_count_7,omitempty"`       // 点赞量 (7天)
+	LikeCount30      string `json:"like_count_30,omitempty"`      // 点赞量 (30天)
+	LikeCount365     string `json:"like_count_365,omitempty"`     // 点赞量 (一年)
+	CommentCount     string `json:"comment_count,omitempty"`      // 评论量
+	CommentCount30   string `json:"comment_count_30,omitempty"`   // 评论量 (30天)
+	CommentCount365  string `json:"comment_count_365,omitempty"`  // 评论量 (一年)
+	Popularity30     string `json:"popularity_30,omitempty"`      // 30 天热度
+	AttachmentCount  string `json:"attachment_count,omitempty"`   // 附件数量
+	User             string `json:"user,omitempty"`               // 用户信息
 }

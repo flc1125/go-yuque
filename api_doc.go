@@ -37,17 +37,17 @@ type Doc struct {
 	Hits             int        `json:"hits,omitempty"`
 
 	// 以下字段是创建文档、获取文档详情等时才有的字段
-	Format    *DocFormat `json:"format,omitempty"`
-	BodyDraft *string    `json:"body_draft,omitempty"`
-	Body      *string    `json:"body,omitempty"`
-	BodySheet *string    `json:"body_sheet,omitempty"`
-	BodyTable *string    `json:"body_table,omitempty"`
-	BodyHTML  *string    `json:"body_html,omitempty"`
-	BodyLake  *string    `json:"body_lake,omitempty"`
-	Book      *Book      `json:"book,omitempty"`
-	Creator   *User      `json:"creator,omitempty"`
-	Tags      *Tag       `json:"tags,omitempty"`
-	LatestVersionID int `json:"latest_version_id,omitempty"`
+	Format          *DocFormat `json:"format,omitempty"`
+	BodyDraft       *string    `json:"body_draft,omitempty"`
+	Body            *string    `json:"body,omitempty"`
+	BodySheet       *string    `json:"body_sheet,omitempty"`
+	BodyTable       *string    `json:"body_table,omitempty"`
+	BodyHTML        *string    `json:"body_html,omitempty"`
+	BodyLake        *string    `json:"body_lake,omitempty"`
+	Book            *Book      `json:"book,omitempty"`
+	Creator         *User      `json:"creator,omitempty"`
+	Tags            *Tag       `json:"tags,omitempty"`
+	LatestVersionID int        `json:"latest_version_id,omitempty"`
 }
 
 // GetDocs 获取知识库下的文档列表
@@ -280,17 +280,17 @@ func (s *docService) UpdateTOC(ctx context.Context, bookID any, request *UpdateT
 
 // UpdateTOCRequest 更新目录请求
 type UpdateTOCRequest struct {
-	Action       TOCAction     `json:"action"`                   // 操作 (必填)
-	ActionMode   TOCActionMode `json:"action_mode,omitempty"`    // 操作模式 (必填)
-	TargetUUID   *string       `json:"target_uuid,omitempty"`    // 目标节点 UUID
-	NodeUUID     *string       `json:"node_uuid,omitempty"`      // 操作节点 UUID
-	DocID        *int          `json:"doc_id,omitempty"`         // 文档 ID [已废弃]
-	DocIDs       []int         `json:"doc_ids,omitempty"`        // 文档 ID 数组
-	Type         *TOCType      `json:"type,omitempty"`           // 节点类型
-	Title        *string       `json:"title,omitempty"`          // 节点名称
-	URL          *string       `json:"url,omitempty"`            // 节点 URL
-	OpenWindow   *int          `json:"open_window,omitempty"`    // 是否新窗口打开
-	Visible      *int          `json:"visible,omitempty"`        // 是否可见
+	Action     TOCAction     `json:"action"`                // 操作 (必填)
+	ActionMode TOCActionMode `json:"action_mode,omitempty"` // 操作模式 (必填)
+	TargetUUID *string       `json:"target_uuid,omitempty"` // 目标节点 UUID
+	NodeUUID   *string       `json:"node_uuid,omitempty"`   // 操作节点 UUID
+	DocID      *int          `json:"doc_id,omitempty"`      // 文档 ID [已废弃]
+	DocIDs     []int         `json:"doc_ids,omitempty"`     // 文档 ID 数组
+	Type       *TOCType      `json:"type,omitempty"`        // 节点类型
+	Title      *string       `json:"title,omitempty"`       // 节点名称
+	URL        *string       `json:"url,omitempty"`         // 节点 URL
+	OpenWindow *int          `json:"open_window,omitempty"` // 是否新窗口打开
+	Visible    *int          `json:"visible,omitempty"`     // 是否可见
 }
 
 // GetTOCs 获取目录

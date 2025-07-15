@@ -35,7 +35,10 @@ type Client struct {
 
 	// services used for talking to different parts of the Tapd API.
 	UserService      *userService
+	SearchService    *searchService
+	GroupService     *groupService
 	DocService       *docService
+	RepoService      *repoService
 	StatisticService *statisticService
 }
 
@@ -64,7 +67,10 @@ func newClient(opts ...ClientOption) (*Client, error) {
 
 	// services
 	c.UserService = &userService{c}
+	c.SearchService = &searchService{c}
+	c.GroupService = &groupService{c}
 	c.DocService = &docService{c}
+	c.RepoService = &repoService{c}
 	c.StatisticService = &statisticService{c}
 
 	return c, nil

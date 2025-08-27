@@ -37,25 +37,17 @@ type Doc struct {
 	Hits             int        `json:"hits,omitempty"`
 
 	// 以下字段是创建文档、获取文档详情等时才有的字段
-	Format    *DocFormat `json:"format,omitempty"`
-	BodyDraft *string    `json:"body_draft,omitempty"`
-	Body      *string    `json:"body,omitempty"`
-	BodySheet *string    `json:"body_sheet,omitempty"`
-	BodyTable *string    `json:"body_table,omitempty"`
-	BodyHTML  *string    `json:"body_html,omitempty"`
-	BodyLake  *string    `json:"body_lake,omitempty"`
-	Book      *Book      `json:"book,omitempty"`
-	Creator   *User      `json:"creator,omitempty"`
-	Tags      *struct {  // todo: 独立成一个单独的结构体
-		ID        int       `json:"id,omitempty"`
-		Title     string    `json:"title,omitempty"`
-		DocID     int       `json:"doc_id,omitempty"`
-		BookID    int       `json:"book_id,omitempty"`
-		UserID    int       `json:"user_id,omitempty"`
-		CreatedAt time.Time `json:"created_at,omitempty"`
-		UpdatedAt time.Time `json:"updated_at,omitempty"`
-	} `json:"tags,omitempty"`
-	LatestVersionID int `json:"latest_version_id,omitempty"`
+	Format          *DocFormat `json:"format,omitempty"`
+	BodyDraft       *string    `json:"body_draft,omitempty"`
+	Body            *string    `json:"body,omitempty"`
+	BodySheet       *string    `json:"body_sheet,omitempty"`
+	BodyTable       *string    `json:"body_table,omitempty"`
+	BodyHTML        *string    `json:"body_html,omitempty"`
+	BodyLake        *string    `json:"body_lake,omitempty"`
+	Book            *Book      `json:"book,omitempty"`
+	Creator         *User      `json:"creator,omitempty"`
+	Tags            *Tag       `json:"tags,omitempty"`
+	LatestVersionID int        `json:"latest_version_id,omitempty"`
 }
 
 // GetDocs 获取知识库下的文档列表
@@ -142,11 +134,164 @@ type CreateDocRequest struct {
 	Body   *string     `json:"body,omitempty"`   // 正文内容
 }
 
-// 获取文档详情
-// 更新文档
-// 删除文档
-// 获取文档历史版本列表
-// 获取文档历史版本详情
+// GetDoc 获取文档详情
+func (s *docService) GetDoc(ctx context.Context, bookID any, docID string, request *GetDocRequest, opts ...RequestOption) (*Doc, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("repos/%s/docs/%s", bid, docID), request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var doc Doc
+	resp, err := s.client.Do(req, &doc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &doc, resp, nil
+}
+
+// GetDocRequest 获取文档请求
+type GetDocRequest struct {
+	PageSize *int `url:"page_size,omitempty"` // 数据表使用，分页大小
+	Page     *int `url:"page,omitempty"`      // 数据表使用，页码
+}
+
+// UpdateDoc 更新文档
+func (s *docService) UpdateDoc(ctx context.Context, bookID any, docID string, request *UpdateDocRequest, opts ...RequestOption) (*Doc, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodPut, fmt.Sprintf("repos/%s/docs/%s", bid, docID), request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var doc Doc
+	resp, err := s.client.Do(req, &doc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &doc, resp, nil
+}
+
+// UpdateDocRequest 更新文档请求
+type UpdateDocRequest struct {
+	Slug   *string     `json:"slug,omitempty"`   // 路径
+	Title  *string     `json:"title,omitempty"`  // 标题
+	Public *AccessType `json:"public,omitempty"` // 公开性
+	Format *DocFormat  `json:"format,omitempty"` // 内容格式
+	Body   *string     `json:"body,omitempty"`   // 正文内容
+}
+
+// DeleteDoc 删除文档
+func (s *docService) DeleteDoc(ctx context.Context, bookID any, docID string, opts ...RequestOption) (*Doc, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodDelete, fmt.Sprintf("repos/%s/docs/%s", bid, docID), nil, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var doc Doc
+	resp, err := s.client.Do(req, &doc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &doc, resp, nil
+}
+
+// GetDocVersions 获取文档历史版本列表
+func (s *docService) GetDocVersions(ctx context.Context, request *GetDocVersionsRequest, opts ...RequestOption) ([]*DocVersion, *Response, error) {
+	req, err := s.client.NewRequest(ctx, http.MethodGet, "doc_versions", request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var versions []*DocVersion
+	resp, err := s.client.Do(req, &versions)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return versions, resp, nil
+}
+
+// GetDocVersionsRequest 获取文档版本请求
+type GetDocVersionsRequest struct {
+	DocID int `url:"doc_id"` // 文档 ID (必填)
+}
+
+// GetDocVersion 获取文档历史版本详情
+func (s *docService) GetDocVersion(ctx context.Context, versionID int, opts ...RequestOption) (*DocVersionDetail, *Response, error) {
+	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("doc_versions/%d", versionID), nil, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var version DocVersionDetail
+	resp, err := s.client.Do(req, &version)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &version, resp, nil
+}
+
+// UpdateTOC 更新目录
+func (s *docService) UpdateTOC(ctx context.Context, bookID any, request *UpdateTOCRequest, opts ...RequestOption) ([]*TOC, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodPut, fmt.Sprintf("repos/%s/toc", bid), request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var rawTocs []*rawTOC
+	resp, err := s.client.Do(req, &rawTocs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	tocs := make([]*TOC, len(rawTocs))
+	for i, rawTOC := range rawTocs {
+		toc := rawTOC.TOC
+		toc.ID = rawTocParseID(rawTOC.ID)
+		toc.DocID = rawTocParseID(rawTOC.DocID)
+		tocs[i] = &toc
+	}
+
+	return tocs, resp, nil
+}
+
+// UpdateTOCRequest 更新目录请求
+type UpdateTOCRequest struct {
+	Action     TOCAction     `json:"action"`                // 操作 (必填)
+	ActionMode TOCActionMode `json:"action_mode,omitempty"` // 操作模式 (必填)
+	TargetUUID *string       `json:"target_uuid,omitempty"` // 目标节点 UUID
+	NodeUUID   *string       `json:"node_uuid,omitempty"`   // 操作节点 UUID
+	DocID      *int          `json:"doc_id,omitempty"`      // 文档 ID [已废弃]
+	DocIDs     []int         `json:"doc_ids,omitempty"`     // 文档 ID 数组
+	Type       *TOCType      `json:"type,omitempty"`        // 节点类型
+	Title      *string       `json:"title,omitempty"`       // 节点名称
+	URL        *string       `json:"url,omitempty"`         // 节点 URL
+	OpenWindow *int          `json:"open_window,omitempty"` // 是否新窗口打开
+	Visible    *int          `json:"visible,omitempty"`     // 是否可见
+}
 
 // GetTOCs 获取目录
 func (s *docService) GetTOCs(ctx context.Context, bookID any, opts ...RequestOption) ([]*TOC, *Response, error) {

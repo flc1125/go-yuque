@@ -137,3 +137,51 @@ func TestDocService_CreateTOCs(t *testing.T) {
 		ParentUUID:  "",
 	}, tocs)
 }
+
+func TestDocService_GetDoc(t *testing.T) {
+	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/repos/org/book/docs/200952222", r.URL.Path)
+
+		_, _ = w.Write(loadData(t, "internal/testdata/api/doc/get_doc.json"))
+	}))
+
+	doc, _, err := client.DocService.GetDoc(ctx, "org/book", 200952222)
+	require.NoError(t, err)
+
+	// 验证基本字段
+	assert.Equal(t, 200952222, doc.ID)
+	assert.Equal(t, DocTypeDoc, doc.Type)
+	assert.Equal(t, "gvbblbqbgmzmew75", doc.Slug)
+	assert.Equal(t, "会议室演示", doc.Title)
+	assert.Equal(t, AccessTypePrivate, doc.Public)
+	assert.Equal(t, 757, doc.WordCount)
+	assert.Equal(t, 128, doc.ReadCount)
+
+	// 验证正文内容
+	require.NotNil(t, doc.Body)
+	assert.Equal(t, "# 会议室演示\n\n这是文档正文内容", *doc.Body)
+	require.NotNil(t, doc.BodyHTML)
+	assert.Contains(t, *doc.BodyHTML, "<h1>会议室演示</h1>")
+	require.NotNil(t, doc.Format)
+	assert.Equal(t, DocFormatMarkdown, *doc.Format)
+
+	// 验证用户信息
+	require.NotNil(t, doc.User)
+	assert.Equal(t, 181111, doc.User.ID)
+	assert.Equal(t, "张三", doc.User.Name)
+
+	// 验证知识库信息
+	require.NotNil(t, doc.Book)
+	assert.Equal(t, 1292222, doc.Book.ID)
+	assert.Equal(t, "新人指南", doc.Book.Name)
+
+	// 验证标签
+	require.Len(t, doc.Tags, 2)
+	assert.Equal(t, "入门", doc.Tags[0].Title)
+	assert.Equal(t, "教程", doc.Tags[1].Title)
+
+	// 验证时间字段
+	assert.Equal(t, mustParseTime(t, "2025-01-02T01:29:30.000Z"), doc.CreatedAt)
+	assert.Equal(t, mustParseTime(t, "2025-02-08T03:26:48.000Z"), doc.UpdatedAt)
+}

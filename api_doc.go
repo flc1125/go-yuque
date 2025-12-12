@@ -46,7 +46,7 @@ type Doc struct {
 	BodyLake        *string    `json:"body_lake,omitempty"`
 	Book            *Book      `json:"book,omitempty"`
 	Creator         *User      `json:"creator,omitempty"`
-	Tags            []DocTag   `json:"tags,omitempty"`
+	Tags            []*DocTag  `json:"tags,omitempty"`
 	LatestVersionID int        `json:"latest_version_id,omitempty"`
 }
 

@@ -1,0 +1,27 @@
+{
+    "data": {
+        "members": [
+            {
+                "user_id": 95500,
+                "login": "flc1125",
+                "name": "张三",
+                "avatar_url": "https://yuque.com/assets/avatar.png",
+                "write_doc_count": 128,
+                "write_count": 456,
+                "read_count": 1024,
+                "like_count": 32
+            },
+            {
+                "user_id": 181111,
+                "login": "lisi",
+                "name": "李四",
+                "avatar_url": "https://yuque.com/assets/avatar2.png",
+                "write_doc_count": 64,
+                "write_count": 200,
+                "read_count": 512,
+                "like_count": 16
+            }
+        ],
+        "total": 25
+    }
+}

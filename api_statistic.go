@@ -77,6 +77,51 @@ type GetGroupStatisticsResponse struct {
 	TableCount             int     `json:"table_count,omitempty"`
 }
 
-// 团队.成员统计数据
-// 团队.知识库统计数据
-// 团队.文档统计数据
+// GetMemberStatistics 团队.成员统计数据
+func (s *statisticService) GetMemberStatistics(ctx context.Context, login any, request *GetMemberStatisticsRequest, opts ...RequestOption) (*GetMemberStatisticsResponse, *Response, error) {
+	lid, err := parseID(login)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("groups/%s/statistics/members", lid), request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var response GetMemberStatisticsResponse
+	resp, err := s.client.Do(req, &response)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &response, resp, nil
+}
+
+// GetMemberStatisticsRequest 成员统计请求参数
+type GetMemberStatisticsRequest struct {
+	Name      *string `url:"name,omitempty"`      // 成员名 [过滤条件]
+	Range     *int    `url:"range,omitempty"`     // 时间范围 (0:全部, 30:近30天, 365:近一年)
+	Page      *int    `url:"page,omitempty"`      // 页码，默认 1
+	Limit     *int    `url:"limit,omitempty"`     // 分页数量，最大 20，默认 10
+	SortField *string `url:"sortField,omitempty"` // 排序字段 (write_doc_count, write_count, read_count, like_count)
+	SortOrder *string `url:"sortOrder,omitempty"` // 排序方向 (desc, asc)，默认 desc
+}
+
+// GetMemberStatisticsResponse 成员统计响应
+type GetMemberStatisticsResponse struct {
+	Members []*MemberStatistic `json:"members,omitempty"`
+	Total   int                `json:"total,omitempty"`
+}
+
+// MemberStatistic 成员统计数据
+type MemberStatistic struct {
+	UserID        int    `json:"user_id,omitempty"`
+	Login         string `json:"login,omitempty"`
+	Name          string `json:"name,omitempty"`
+	AvatarURL     string `json:"avatar_url,omitempty"`
+	WriteDocCount int    `json:"write_doc_count,omitempty"` // 编写文档数
+	WriteCount    int    `json:"write_count,omitempty"`     // 编辑次数
+	ReadCount     int    `json:"read_count,omitempty"`      // 阅读量
+	LikeCount     int    `json:"like_count,omitempty"`      // 点赞量
+}

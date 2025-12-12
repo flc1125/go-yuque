@@ -65,3 +65,43 @@ func TestStatisticService_GetGroupStatistics(t *testing.T) {
 		TableCount:             3,
 	}, resp)
 }
+
+func TestStatisticService_GetMemberStatistics(t *testing.T) {
+	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/groups/group_name/statistics/members", r.URL.Path)
+		assert.Equal(t, "1", r.URL.Query().Get("page"))
+		assert.Equal(t, "10", r.URL.Query().Get("limit"))
+		assert.Equal(t, "write_doc_count", r.URL.Query().Get("sortField"))
+		assert.Equal(t, "desc", r.URL.Query().Get("sortOrder"))
+
+		_, _ = w.Write(loadData(t, "internal/testdata/api/statistic/get_member_statistics.json"))
+	}))
+
+	resp, _, err := client.StatisticService.GetMemberStatistics(ctx, "group_name", &GetMemberStatisticsRequest{
+		Page:      Ptr(1),
+		Limit:     Ptr(10),
+		SortField: Ptr("write_doc_count"),
+		SortOrder: Ptr("desc"),
+	})
+	require.NoError(t, err)
+
+	assert.Equal(t, 25, resp.Total)
+	require.Len(t, resp.Members, 2)
+
+	// 验证第一个成员
+	member1 := resp.Members[0]
+	assert.Equal(t, 95500, member1.UserID)
+	assert.Equal(t, "flc1125", member1.Login)
+	assert.Equal(t, "张三", member1.Name)
+	assert.Equal(t, 128, member1.WriteDocCount)
+	assert.Equal(t, 456, member1.WriteCount)
+	assert.Equal(t, 1024, member1.ReadCount)
+	assert.Equal(t, 32, member1.LikeCount)
+
+	// 验证第二个成员
+	member2 := resp.Members[1]
+	assert.Equal(t, 181111, member2.UserID)
+	assert.Equal(t, "lisi", member2.Login)
+	assert.Equal(t, "李四", member2.Name)
+}

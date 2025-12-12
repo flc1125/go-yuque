@@ -37,25 +37,27 @@ type Doc struct {
 	Hits             int        `json:"hits,omitempty"`
 
 	// 以下字段是创建文档、获取文档详情等时才有的字段
-	Format    *DocFormat `json:"format,omitempty"`
-	BodyDraft *string    `json:"body_draft,omitempty"`
-	Body      *string    `json:"body,omitempty"`
-	BodySheet *string    `json:"body_sheet,omitempty"`
-	BodyTable *string    `json:"body_table,omitempty"`
-	BodyHTML  *string    `json:"body_html,omitempty"`
-	BodyLake  *string    `json:"body_lake,omitempty"`
-	Book      *Book      `json:"book,omitempty"`
-	Creator   *User      `json:"creator,omitempty"`
-	Tags      *struct {  // todo: 独立成一个单独的结构体
-		ID        int       `json:"id,omitempty"`
-		Title     string    `json:"title,omitempty"`
-		DocID     int       `json:"doc_id,omitempty"`
-		BookID    int       `json:"book_id,omitempty"`
-		UserID    int       `json:"user_id,omitempty"`
-		CreatedAt time.Time `json:"created_at,omitempty"`
-		UpdatedAt time.Time `json:"updated_at,omitempty"`
-	} `json:"tags,omitempty"`
-	LatestVersionID int `json:"latest_version_id,omitempty"`
+	Format          *DocFormat `json:"format,omitempty"`
+	BodyDraft       *string    `json:"body_draft,omitempty"`
+	Body            *string    `json:"body,omitempty"`
+	BodySheet       *string    `json:"body_sheet,omitempty"`
+	BodyTable       *string    `json:"body_table,omitempty"`
+	BodyHTML        *string    `json:"body_html,omitempty"`
+	BodyLake        *string    `json:"body_lake,omitempty"`
+	Book            *Book      `json:"book,omitempty"`
+	Creator         *User      `json:"creator,omitempty"`
+	Tags            []DocTag   `json:"tags,omitempty"`
+	LatestVersionID int        `json:"latest_version_id,omitempty"`
+}
+
+type DocTag struct {
+	ID        int       `json:"id,omitempty"`
+	Title     string    `json:"title,omitempty"`
+	DocID     int       `json:"doc_id,omitempty"`
+	BookID    int       `json:"book_id,omitempty"`
+	UserID    int       `json:"user_id,omitempty"`
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
 
 // GetDocs 获取知识库下的文档列表
@@ -121,6 +123,35 @@ func (s *docService) CreateDoc(ctx context.Context, bookID any, request *CreateD
 	}
 
 	req, err := s.client.NewRequest(ctx, http.MethodPost, fmt.Sprintf("repos/%s/docs", bid), request, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var doc Doc
+	resp, err := s.client.Do(req, &doc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return &doc, resp, nil
+}
+
+// GetDoc 获取文档详情
+//
+// bookID: 知识库 ID 或 命名空间(group_login/book_slug)
+// docID: 文档 ID 或 slug
+func (s *docService) GetDoc(ctx context.Context, bookID any, docID any, opts ...RequestOption) (*Doc, *Response, error) {
+	bid, err := parseID(bookID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	did, err := parseID(docID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest(ctx, http.MethodGet, fmt.Sprintf("repos/%s/docs/%s", bid, did), nil, opts)
 	if err != nil {
 		return nil, nil, err
 	}

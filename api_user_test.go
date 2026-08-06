@@ -10,7 +10,7 @@ import (
 )
 
 func TestUserService_Hello(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/hello", r.URL.Path)
 
@@ -25,7 +25,7 @@ func TestUserService_Hello(t *testing.T) {
 }
 
 func TestUserService_GetUser(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/user", r.URL.Path)
 

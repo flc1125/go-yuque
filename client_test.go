@@ -25,7 +25,7 @@ const (
 
 var ctx = context.Background()
 
-func createServerClient(t *testing.T, handler http.Handler) *Client {
+func newTestClient(t *testing.T, handler http.Handler) *Client {
 	srv := httptest.NewServer(handler)
 	t.Cleanup(srv.Close)
 
@@ -48,7 +48,7 @@ func loadData(t *testing.T, filepath string) []byte {
 }
 
 func TestClient_CheckToken(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/basic-auth", r.URL.Path)
 
@@ -72,7 +72,7 @@ func TestClient_CheckToken(t *testing.T) {
 }
 
 func TestClient_ErrorResponse(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/error-response", r.URL.Path)
 
@@ -95,7 +95,7 @@ func TestClient_ErrorResponse(t *testing.T) {
 }
 
 func TestClient_NormalRequest(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/normal-request", r.URL.Path)
 
@@ -117,7 +117,7 @@ func TestClient_NormalRequest(t *testing.T) {
 }
 
 func TestClient_WithRequestOption(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/request-option", r.URL.Path)
 

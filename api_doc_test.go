@@ -10,7 +10,7 @@ import (
 )
 
 func TestDocService_GetDocs(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/repos/org/book/docs", r.URL.Path)
 		assert.Equal(t, "0", r.URL.Query().Get("offset"))
@@ -37,7 +37,7 @@ func TestDocService_GetDocs(t *testing.T) {
 }
 
 func TestDocService_CreateDocs(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodPost, r.Method)
 
 		var req CreateDocRequest
@@ -90,7 +90,7 @@ func TestDocService_CreateDocs(t *testing.T) {
 }
 
 func TestDocService_CreateTOCs(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/repos/org/book/toc", r.URL.Path)
 
@@ -139,7 +139,7 @@ func TestDocService_CreateTOCs(t *testing.T) {
 }
 
 func TestDocService_GetDoc(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/repos/org/book/docs/200952222", r.URL.Path)
 

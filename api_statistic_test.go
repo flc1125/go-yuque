@@ -9,7 +9,7 @@ import (
 )
 
 func TestStatisticService_GetGroupStatistics(t *testing.T) {
-	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/groups/group_name/statistics", r.URL.Path)
 

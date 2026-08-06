@@ -20,3 +20,13 @@ lint-fix: lint
 test:
 	go test ./... -race
 	@echo "✅ Testing completed"
+
+.PHONY: check-clean-work
+check-clean-work:
+	@if ! git diff --quiet; then \
+	  echo; \
+	  echo 'Working tree is not clean, did you forget to run "git stash" or "git commit"?'; \
+	  echo; \
+	  git status; \
+	  exit 1; \
+	fi

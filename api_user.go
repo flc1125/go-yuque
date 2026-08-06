@@ -58,7 +58,7 @@ type User struct {
 	FollowingCount   int       `json:"following_count,omitempty"`
 	Public           int       `json:"public,omitempty"`
 	Description      string    `json:"description,omitempty"`
-	CreatedAt        time.Time `json:"created_at,omitempty"`
-	UpdatedAt        time.Time `json:"updated_at,omitempty"`
+	CreatedAt        time.Time `json:"created_at,omitzero"`
+	UpdatedAt        time.Time `json:"updated_at,omitzero"`
 	WorkID           string    `json:"work_id,omitempty"`
 }

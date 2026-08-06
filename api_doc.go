@@ -27,11 +27,11 @@ type Doc struct {
 	ReadCount        int        `json:"read_count,omitempty"`
 	CommentsCount    *int       `json:"comments_count,omitempty"`
 	WordCount        int        `json:"word_count,omitempty"`
-	CreatedAt        time.Time  `json:"created_at,omitempty"`
-	UpdatedAt        time.Time  `json:"updated_at,omitempty"`
-	ContentUpdatedAt time.Time  `json:"content_updated_at,omitempty"`
-	PublishedAt      time.Time  `json:"published_at,omitempty"`
-	FirstPublishedAt time.Time  `json:"first_published_at,omitempty"`
+	CreatedAt        time.Time  `json:"created_at,omitzero"`
+	UpdatedAt        time.Time  `json:"updated_at,omitzero"`
+	ContentUpdatedAt time.Time  `json:"content_updated_at,omitzero"`
+	PublishedAt      time.Time  `json:"published_at,omitzero"`
+	FirstPublishedAt time.Time  `json:"first_published_at,omitzero"`
 	User             *User      `json:"user,omitempty"`
 	LastEditor       *User      `json:"last_editor,omitempty"`
 	Hits             int        `json:"hits,omitempty"`
@@ -56,8 +56,8 @@ type DocTag struct {
 	DocID     int       `json:"doc_id,omitempty"`
 	BookID    int       `json:"book_id,omitempty"`
 	UserID    int       `json:"user_id,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	CreatedAt time.Time `json:"created_at,omitzero"`
+	UpdatedAt time.Time `json:"updated_at,omitzero"`
 }
 
 // GetDocs 获取知识库下的文档列表
@@ -140,7 +140,7 @@ func (s *docService) CreateDoc(ctx context.Context, bookID any, request *CreateD
 //
 // bookID: 知识库 ID 或 命名空间(group_login/book_slug)
 // docID: 文档 ID 或 slug
-func (s *docService) GetDoc(ctx context.Context, bookID any, docID any, opts ...RequestOption) (*Doc, *Response, error) {
+func (s *docService) GetDoc(ctx context.Context, bookID, docID any, opts ...RequestOption) (*Doc, *Response, error) {
 	bid, err := parseID(bookID)
 	if err != nil {
 		return nil, nil, err

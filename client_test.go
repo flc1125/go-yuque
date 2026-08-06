@@ -25,7 +25,7 @@ const (
 
 var ctx = context.Background()
 
-func createServerClient(t *testing.T, handler http.Handler) (*httptest.Server, *Client) {
+func createServerClient(t *testing.T, handler http.Handler) *Client {
 	srv := httptest.NewServer(handler)
 	t.Cleanup(srv.Close)
 
@@ -38,7 +38,7 @@ func createServerClient(t *testing.T, handler http.Handler) (*httptest.Server, *
 	)
 	assert.NoError(t, err)
 
-	return srv, client
+	return client
 }
 
 func loadData(t *testing.T, filepath string) []byte {
@@ -48,14 +48,14 @@ func loadData(t *testing.T, filepath string) []byte {
 }
 
 func TestClient_CheckToken(t *testing.T) {
-	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/basic-auth", r.URL.Path)
 
 		// check token
 		assert.Equal(t, apiToken, r.Header.Get("X-Auth-Token"))
 
-		// nolint: errcheck
+		//nolint: errcheck
 		fmt.Fprint(w, `{
   "status": 1,
   "data": {},
@@ -72,13 +72,13 @@ func TestClient_CheckToken(t *testing.T) {
 }
 
 func TestClient_ErrorResponse(t *testing.T) {
-	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/error-response", r.URL.Path)
 
 		w.WriteHeader(http.StatusUnauthorized)
 
-		// nolint: errcheck
+		//nolint: errcheck
 		fmt.Fprint(w, `{
   "status": 0,
   "data": {},
@@ -95,7 +95,7 @@ func TestClient_ErrorResponse(t *testing.T) {
 }
 
 func TestClient_NormalRequest(t *testing.T) {
-	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/normal-request", r.URL.Path)
 
@@ -105,7 +105,7 @@ func TestClient_NormalRequest(t *testing.T) {
 		// check token
 		assert.Equal(t, apiToken, r.Header.Get("X-Auth-Token"))
 
-		fmt.Fprint(w, successResponse) // nolint: errcheck
+		fmt.Fprint(w, successResponse) //nolint: errcheck
 	}))
 
 	req, err := client.NewRequest(ctx, http.MethodGet, "__/normal-request", nil, nil)
@@ -117,7 +117,7 @@ func TestClient_NormalRequest(t *testing.T) {
 }
 
 func TestClient_WithRequestOption(t *testing.T) {
-	_, client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	client := createServerClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, http.MethodGet, r.Method)
 		assert.Equal(t, "/__/request-option", r.URL.Path)
 
@@ -132,7 +132,7 @@ func TestClient_WithRequestOption(t *testing.T) {
 		// check token
 		assert.Equal(t, apiToken, r.Header.Get("X-Auth-Token"))
 
-		fmt.Fprint(w, successResponse) // nolint: errcheck
+		fmt.Fprint(w, successResponse) //nolint: errcheck
 	}))
 
 	req, err := client.NewRequest(ctx, http.MethodGet, "__/request-option", nil, []RequestOption{

@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
     branches:
       - master
+      - main
 env:
   GOPROXY: "https://proxy.golang.org"
 
@@ -35,3 +37,12 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  test-success:
+    name: test-success
+    if: ${{ always() }}
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify test matrix
+        run: test "${{ needs.test.result }}" = "success"

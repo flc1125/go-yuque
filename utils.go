@@ -4,6 +4,8 @@ import "fmt"
 
 // Ptr is a helper function to get the pointer of a value.
 //
+// Deprecated: Use new(v) instead. Go 1.26 allows new to take an expression.
+//
 //go:fix inline
 func Ptr[T any](v T) *T {
 	return new(v)

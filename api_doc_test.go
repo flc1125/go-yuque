@@ -21,9 +21,9 @@ func TestDocService_GetDocs(t *testing.T) {
 	}))
 
 	resp, _, err := client.DocService.GetDocs(ctx, "org/book", &GetDocsRequest{
-		Offset:             Ptr(0),
-		Limit:              Ptr(10),
-		OptionalProperties: Ptr("hits,tags"),
+		Offset:             new(0),
+		Limit:              new(10),
+		OptionalProperties: new("hits,tags"),
 	})
 	require.NoError(t, err)
 
@@ -52,11 +52,11 @@ func TestDocService_CreateDocs(t *testing.T) {
 	}))
 
 	doc, _, err := client.DocService.CreateDoc(ctx, "org/book", &CreateDocRequest{
-		Slug:   Ptr("test"),
-		Title:  Ptr("无标题"),
-		Public: Ptr(AccessTypePrivate),
-		Format: Ptr(DocFormatMarkdown),
-		Body:   Ptr("string"),
+		Slug:   new("test"),
+		Title:  new("无标题"),
+		Public: new(AccessTypePrivate),
+		Format: new(DocFormatMarkdown),
+		Body:   new("string"),
 	})
 	require.NoError(t, err)
 
@@ -70,10 +70,10 @@ func TestDocService_CreateDocs(t *testing.T) {
 		UserID:           12222,
 		BookID:           1292222,
 		LastEditorID:     12222,
-		Format:           Ptr(DocFormatMarkdown),
-		BodyDraft:        Ptr(""),
-		Body:             Ptr("string"),
-		BodyHTML:         Ptr("<p>string</p>\n"),
+		Format:           new(DocFormatMarkdown),
+		BodyDraft:        new(""),
+		Body:             new("string"),
+		BodyHTML:         new("<p>string</p>\n"),
 		Public:           AccessTypePrivate,
 		Status:           1,
 		LikesCount:       nil,

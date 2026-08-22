@@ -3,8 +3,10 @@ package yuque
 import "fmt"
 
 // Ptr is a helper function to get the pointer of a value.
+//
+//go:fix inline
 func Ptr[T any](v T) *T {
-	return &v
+	return new(v)
 }
 
 // parseID is a helper function to parse the id.
